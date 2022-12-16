@@ -1,7 +1,7 @@
 # ChatGPT
 
 ## Datasets
-- [DiaFact](https://aclanthology.org/2022.acl-long.263/)
+- [DialFact](https://aclanthology.org/2022.acl-long.263/)
 
 ## Installation
 

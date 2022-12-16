@@ -50,3 +50,6 @@ dependencies:
       - rich==12.6.0
       - typing-extensions==4.4.0
 prefix: /home/bruce/anaconda3/envs/chatgpt
+
+
+commonmark==0.9.1 greenlet==2.0.1 playwright==1.28.0 pyee==9.0.4 pygments==2.13.0 rich==12.6.0 typing-extensions==4.4.0
