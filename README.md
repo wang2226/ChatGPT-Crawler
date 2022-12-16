@@ -2,6 +2,7 @@
 
 ## Datasets
 - [DialFact](https://aclanthology.org/2022.acl-long.263/)
+- [AdversarialQA](https://adversarialqa.github.io)
 
 ## Installation
 
