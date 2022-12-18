@@ -5,6 +5,7 @@
 - [AdversarialQA](https://adversarialqa.github.io)
 - [ARC](https://allenai.org/data/arc)
 - [CoQA](https://stanfordnlp.github.io/coqa/)
+- [HototQA](https://hotpotqa.github.io)
 
 ## Installation
 
