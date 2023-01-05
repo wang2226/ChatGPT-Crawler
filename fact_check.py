@@ -10,8 +10,6 @@ num_epochs = 8
 supporting_texts = json.load(open('./supporting.json'))
 refuting_texts = json.load(open('./refuting.json'))
 
-# dev_supporting_texts = json.load(open('./dev_supporting.json'))
-# dev_refuting_texts = json.load(open('./dev_refuting.json'))
 
 split = 0.8
 
@@ -20,15 +18,9 @@ train_list = [item + _prompt + 'Yes.' for item in supporting_texts]
 train_list += [item + _prompt + 'Nope.' for item in refuting_texts]
 random.shuffle(train_list)
 
-# dev_list = [item + _prompt + 'Yes.' for item in dev_supporting_texts]
-# dev_list += [item + _prompt + 'Nope.' for item in dev_refuting_texts]
-# random.shuffle(dev_list)
-
 json.dump(train_list, open('./train_list.json', 'w'))
-# json.dump(dev_list, open('./dev_list.json', 'w'))
 
 train_list = json.load(open('./train_list.json'))
-# dev_list = json.load(open('./dev_list.json'))
 
 print(train_list[0])
 
@@ -60,7 +52,7 @@ def batchify(data, n):
 
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 model = GPT2LMHeadModel.from_pretrained('gpt2')
-# model.cuda()
+model.cuda()
 criterion = nn.BCEWithLogitsLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=2e-5)
 
