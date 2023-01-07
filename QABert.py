@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 
 import torch
+import torch.nn as nn
 from transformers import BertForQuestionAnswering
 from transformers import BertTokenizer
 
@@ -25,11 +26,11 @@ def data_processing_coqa(dataset):
 # data_processing_coqa('http://downloads.cs.stanford.edu/nlp/data/coqa/coqa-train-v1.0.json')
 # data = pd.read_csv("CoQA_dataset.csv")
 
-load_model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
-tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
 
 
-def evaluating_QA(question, text):
+def evaluating_QA_BERT(question, text):
+    load_model = BertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+    tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
     input_ids = tokenizer.encode(question, text)
     tokens = tokenizer.convert_ids_to_tokens(input_ids)
     seq_count = input_ids.index(tokenizer.sep_token_id)
@@ -65,5 +66,5 @@ I love traveling to new places, eating different food, and connecting with new p
 """
 question = "What are the research interests of Aman?"
 
-evaluating_QA(question, text)
+# evaluating_QA_BERT(question, text)
 
