@@ -5,51 +5,24 @@ import pandas as pd
 from collections import defaultdict
 import time
 from datetime import datetime
+import numpy as np
+from math import ceil
+import pickle
+import argparse
 
 
-VERSION = 0.2
 TIMESTAMP = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+DATASET = "DialFact"
+CHUNK = 50
 
 
-with open("./raw/valid_split.jsonl") as f:
-    context_id, id, context, response, response_label, type_label = [], [], [], [], [], []
-    for line in tqdm(f, total=10436):
-        l = json.loads(line)
-        if l["data_type"] == "written" and l["type_label"] == "factual":
-            context_id.append(l["context_id"])
-            id.append(l["id"])
-            context.append(l["context"])
-            response.append(l["response"])
-            response_label.append(l["response_label"])
-            type_label.append(l["type_label"])
+parser = argparse.ArgumentParser()
+parser.add_argument("--part", type=int, default=0, help="which part of dataset")
+args = parser.parse_args()
 
-    df_valid = pd.DataFrame(list(zip(context_id, id, context, response, response_label, type_label)), columns=[
-                      "context_id", "id", "context", "response", "response_label", "type_label"])
-    #print(df_valid)
-
-
-with open("./raw/test_split.jsonl") as f:
-    context_id, id, context, response, response_label, type_label = [], [], [], [], [], []
-    for line in tqdm(f, total=11809):
-        l = json.loads(line)
-        if l["data_type"] == "written" and l["type_label"] == "factual":
-            context_id.append(l["context_id"])
-            id.append(l["id"])
-            context.append(l["context"])
-            response.append(l["response"])
-            response_label.append(l["response_label"])
-            type_label.append(l["type_label"])
-
-    df_test = pd.DataFrame(list(zip(context_id, id, context, response, response_label, type_label)), columns=[
-                      "context_id", "id", "context", "response", "response_label", "type_label"])
-    #print(df_test)
-
-
-df = pd.concat([df_valid, df_test])
-df = df.iloc[0:19]
+part = args.part
+df = pd.read_pickle(f"./preprocess/{part}.pkl")
 print(df)
-print(f"Length of df: {len(df)}")
-
 
 bot = ChatGPT()
 
@@ -57,13 +30,23 @@ input = []
 output = []
 
 for index, row in tqdm(df.iterrows(), total=df.shape[0]):
-    query = row["response"]
-    #query = "".join(i for i in row["context"]) + " " + row["response"]
+    #query = row["response"]
+    query = "".join(i for i in row["context"]) + " " + row["response"]
+
+    print("*" * 20)
     print(query)
+    print("*" * 20)
     input.append(query)
+
     response = bot.ask(str(query))
+    print("=" * 20)
     print(response)
+    print("=" * 20)
+
     output.append(response)
+
+    if response == "Unusable response produced by ChatGPT, maybe its unavailable.":
+        break
 
 # result = pd.DataFrame(list(zip(input, output)), columns=["input", "output"])
 # result.to_csv("./result.csv", sep="\t", encoding="utf-8")
@@ -78,10 +61,11 @@ for i in range(df.shape[0]):
 out = defaultdict(lambda: defaultdict(lambda: {}))
 out = {
     "author": "IIT",
-    "version": VERSION,
+    "dataset": DATASET,
+    "part": part,
     "created": TIMESTAMP,
     "result": result_list
 }
 
-with open(f"./processed/DialFact_{VERSION}.json", "w") as fp:
+with open(f"./processed/DialFact_{part}.json", "w") as fp:
     json.dump(out, fp)
