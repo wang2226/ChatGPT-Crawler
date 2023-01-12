@@ -12,11 +12,11 @@ import argparse
 
 
 TIMESTAMP = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-DATASET = "AQA"
+DATASET = "COQA"
 CHUNK = 50
 
 
-df = pd.read_pickle(f"./AQA/preprocess/0.pkl")
+df = pd.read_pickle(f"./CoQA/preprocess/0.pkl")
 
 
 # for index, row in tqdm(df.iterrows(), total=df.shape[0]):
@@ -44,7 +44,7 @@ output = []
 
 for index, row in tqdm(df.iterrows(), total=df.shape[0]):
     #query = row["response"]
-    query = "".join(i for i in row["context"]) + " " + row["question"]
+    query = "".join(i for i in row["text"]) + " " + row["question"]
 
     # print("*" * 20)
     # print(query)
@@ -71,7 +71,12 @@ for i in range(df.shape[0]):
         "output": output[i]
     })
 
-part =0
+
+
+part=0
+
+
+
 
 out = defaultdict(lambda: defaultdict(lambda: {}))
 out = {
@@ -82,5 +87,5 @@ out = {
     "result": result_list
 }
 
-with open(f"./processed/AQA_{part}.json", "w") as fp:
+with open(f"./processed/CoQA_{part}.json", "w") as fp:
     json.dump(out, fp)
