@@ -1,18 +1,15 @@
 # ChatGPT
 
-## Datasets
-- [DialFact](https://aclanthology.org/2022.acl-long.263/)
-- [AdversarialQA](https://adversarialqa.github.io)
-
 ## Installation
 
-Requires Python 3.9 to run.
+Follow installation instruction from [pyChatGPT](https://github.com/terry3041/pyChatGPT)
 
-Install conda enviroment from `environment.yml` file.
+## Run
+1. Save `__Secure-next-auth.session-token` to a file.
+2. Modify `pychatgpt.py` to take the desired input.
+3. Create a file `start.txt` and write 0 to it.
+4. Modify "--token" argument in `run.sh`.
 
 ```sh
-conda env create -n chatgpt --file environment.yml
-conda activate chatgpt
+./run.sh
 ```
-
-Follow installation instruction from [chatgpt_wrapper](https://github.com/mmabrouk/chatgpt-wrapper)
