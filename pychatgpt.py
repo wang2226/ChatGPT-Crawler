@@ -2,15 +2,14 @@ from pyChatGPT import ChatGPT
 import json
 from tqdm import tqdm
 import pandas as pd
-from collections import defaultdict
 import time
 from datetime import datetime
 import numpy as np
-from math import ceil
 import pickle
 import argparse
 import csv
 import os
+import sys
 
 
 TIMESTAMP = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
@@ -18,79 +17,48 @@ DATASET = "DialFact"
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--token", type=str, default=0, help="token path")
+parser.add_argument("--token", type=str, default="", help="token path")
 args = parser.parse_args()
 
 
-with open("./raw/valid_split.jsonl") as f:
-    context_id, id, context, response, response_label, type_label = [], [], [], [], [], []
-    for line in tqdm(f, total=10436):
-        l = json.loads(line)
-        if l["data_type"] == "written" and l["type_label"] == "factual":
-            context_id.append(l["context_id"])
-            id.append(l["id"])
-            context.append(l["context"])
-            response.append(l["response"])
-            response_label.append(l["response_label"])
-            type_label.append(l["type_label"])
+if not os.path.exists(f"./start"):
+    with open("./start", "w") as f:
+        f.write(str(0))
+        f.close()
 
-    df_valid = pd.DataFrame(list(zip(context_id, id, context, response, response_label, type_label)), columns=[
-                      "context_id", "id", "context", "response", "response_label", "type_label"])
-    #print(df_valid)
-
-
-with open("./raw/test_split.jsonl") as f:
-    context_id, id, context, response, response_label, type_label = [], [], [], [], [], []
-    for line in tqdm(f, total=11809):
-        l = json.loads(line)
-        if l["data_type"] == "written" and l["type_label"] == "factual":
-            context_id.append(l["context_id"])
-            id.append(l["id"])
-            context.append(l["context"])
-            response.append(l["response"])
-            response_label.append(l["response_label"])
-            type_label.append(l["type_label"])
-
-    df_test = pd.DataFrame(list(zip(context_id, id, context, response, response_label, type_label)), columns=[
-                      "context_id", "id", "context", "response", "response_label", "type_label"])
-    #print(df_test)
-
-
-with open("./start.txt", "r") as f:
+with open("./start", "r") as f:
     start = f.read()
 f.close()
 
-#raw_df = pd.concat([df_valid, df_test])
-raw_df = df_valid
+
+raw_df = pd.read_pickle(f"./input_processed/{DATASET}.pkl")
 end = raw_df.shape[0]
 if start == 0:
     df = raw_df[int(start):end]
 df = raw_df[int(start)+1:end]
 print(df)
 
-
-with open(f"./{args.token}", "r") as f:
-    token = f.read()
-
-session_token = token  # `__Secure-next-auth.session-token` cookie from https://chat.openai.com/chat
-api = ChatGPT(session_token)  # auth with session token
-# api = ChatGPT(session_token, conversation_id="some-random-uuid")  # specify conversation id
-# api = ChatGPT(session_token, proxy="https://proxy.example.com:8080")  # specify proxy
-# api = ChatGPT(session_token, chrome_args=["--window-size=1920,768"])  # specify chrome args
-#api = ChatGPT(session_token, moderation=False)  # disable moderation
-#api = ChatGPT(session_token, verbose=True)  # verbose mode (print debug messages)
+try:
+    with open(f"./tokens/{args.token}", "r") as f:
+        token = f.read()
+except:
+    print("Cannot find valid tokens")
+    sys.exit(1)
 
 
-if not os.path.exists(f"./processed/DialFact_{int(start)}.csv"):
-    f = open(f"./processed/DialFact_{int(start)}.csv", "w")
+session_token = token
+api = ChatGPT(session_token)
+
+
+if not os.path.exists(f"./output_raw/DialFact_{int(start)}.csv"):
+    f = open(f"./output_raw/DialFact_{int(start)}.csv", "w")
     f.close()
 
 
-with open(f"./processed/DialFact_{int(start)}.csv", "a") as fp:
+with open(f"./output_raw/DialFact_{int(start)}.csv", "a") as fp:
     writer = csv.writer(fp)
     for index, row in tqdm(df.iterrows(), total=df.shape[0]):
-        #query = row["response"]
-        query = "".join(i for i in row["context"]) + " " + row["response"]
+        query = row["query"]
 
         print("*" * 20)
         print(query)
@@ -98,9 +66,8 @@ with open(f"./processed/DialFact_{int(start)}.csv", "a") as fp:
 
         try:
             response = api.send_message(query)
-            print(response)
             print("=" * 20)
-            print(response["message"])
+            print(response)
             print("=" * 20)
 
             if response["message"] != "":
@@ -109,11 +76,19 @@ with open(f"./processed/DialFact_{int(start)}.csv", "a") as fp:
             else:
                 print(f"Stopped at: {index}")
 
-            with open("./start.txt", "w") as f:
+            with open("./start", "w") as f:
                 f.write(str(index))
             f.close()
         except ValueError as ve:
-            time.sleep(60)
+            print(ve)
+            if str(ve) == "Too many requests in 1 hour. Try again later.":
+                print(str(ve))
+                f = open("change_token", "w")
+                f.write("True")
+                f.close()
+            if str(ve) == "Only one message at a time. Please allow any other responses to complete before sending another message, or wait one minute.":
+                print(str(ve))
+                time.sleep(60)
 
 fp.close()
 
