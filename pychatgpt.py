@@ -1,5 +1,4 @@
 from pyChatGPT import ChatGPT
-import json
 from tqdm import tqdm
 import pandas as pd
 import time
@@ -11,6 +10,8 @@ import csv
 import os
 import sys
 
+
+# TODO: Change "DATASET" constant
 
 TIMESTAMP = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 DATASET = "DialFact"
@@ -27,16 +28,26 @@ if not os.path.exists(f"./start"):
         f.close()
 
 with open("./start", "r") as f:
-    start = f.read()
+    start = int(f.read())
 f.close()
 
 
 raw_df = pd.read_pickle(f"./input_processed/{DATASET}.pkl")
 end = raw_df.shape[0]
+
 if start == 0:
     df = raw_df[int(start):end]
+
+if start + 1 == end:
+    print("Finished crawling data")
+    sys.exit(0)
+
 df = raw_df[int(start)+1:end]
 print(df)
+
+if start == end:
+    print("Finished crawling data")
+    sys.exit(0)
 
 try:
     with open(f"./tokens/{args.token}", "r") as f:
@@ -82,12 +93,12 @@ with open(f"./output_raw/DialFact_{int(start)}.csv", "a") as fp:
         except ValueError as ve:
             print(ve)
             if str(ve) == "Too many requests in 1 hour. Try again later.":
-                print(str(ve))
+                # print(str(ve))
                 f = open("change_token", "w")
                 f.write("True")
                 f.close()
             if str(ve) == "Only one message at a time. Please allow any other responses to complete before sending another message, or wait one minute.":
-                print(str(ve))
+                # print(str(ve))
                 time.sleep(60)
 
 fp.close()

@@ -25,8 +25,7 @@ mkdir ./tokens
 1. Save the tokens (a.k.a. `__Secure-next-auth.session-token`) as files under `./tokens` folder.
 2. Modify `preprocess.py` to process the raw dataset. The end goal is to save the processed dataset as a Pandas Dataframe object, with a column named `query` that contains the queries to feed to ChatGPT.
 3. Change `DATASET` variable in `pychatgpt.py`.
-4. Modify `COMMANDS_LIST` in `run.sh`.
-5. Start the script `./run.sh`.
+4. Start the script `./run.sh`.
 
 ## Datasets
 

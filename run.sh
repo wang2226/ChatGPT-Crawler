@@ -2,7 +2,15 @@
 
 LOGFILE=log.txt
 
-COMMANDS_LIST=("python pychatgpt.py --token xxx" "python pychatgpt.py --token hwang219" "python pychatgpt.py --token bai" "python pychatgpt.py --token bruce" )
+PREFIX="python pychatgpt.py --token"
+COMMANDS_LIST=()
+
+for file in ./tokens/*; do
+  #echo "${file##*/}"
+  COMMANDS_LIST+=("$PREFIX ${file##*/}")
+done
+
+printf '%s\n' "${COMMANDS_LIST[@]}"
 
 change=`cat ./change_token`
 
@@ -25,5 +33,3 @@ while true ; do
   writelog "Exited with status $?"
   writelog "Restarting"
 done
-
-echo "Finally finished!!"

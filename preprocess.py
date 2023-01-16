@@ -7,10 +7,15 @@ from math import ceil
 import pickle
 
 
-# TODO
+# TODO:
+"""
+Change this script according to your preprocessing needs.
+Make sure to save your preprocessed dataset in ./input_processed as a pickle file.
+You need to create a column named "query" inside your dataframe object.
+"""
+
 DATASET = "DialFact"
 CHUNK = 50
-
 
 with open("./input_raw/valid_split.jsonl") as f:
     context_id, id, context, response, response_label, type_label = [], [], [], [], [], []
