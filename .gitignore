@@ -12,12 +12,12 @@ CoQA/preprocess/
 
 CoQA_data.csv
 
-# input_processed/
+input_processed/
 
-# input_raw/
+input_raw/
 
-# output_raw/
+output_raw/
 
-# tokens/
+tokens/
 
-# output_processed/
+output_processed/
