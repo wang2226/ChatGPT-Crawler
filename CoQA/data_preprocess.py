@@ -8,10 +8,9 @@ print(coqa.head())
 
 cols = ["text","question","answer"]
 CHUNK = 50
-<<<<<<< HEAD
+
 DATASET = 'CoQA'
-=======
->>>>>>> dc8d6a502ffb98ad06156b91e769fc3fa22cbd61
+
 comp_list = []
 for index, row in coqa.iterrows():
     for i in range(len(row["data"]["questions"])):
@@ -32,7 +31,7 @@ print(df["query"])
 # print("Number of question and answers: ", len(data))
 
 # def chunking_dataset(CHUNK):
-<<<<<<< HEAD
+
 # num_chunks = math.ceil(df.shape[0] / CHUNK)
 # df_list = np.array_split(df, num_chunks)
 
@@ -43,16 +42,16 @@ print(df["query"])
 
 # print(f"Total: {total}")
 df.to_pickle(f"./input_processed/{DATASET}.pkl")
-=======
-num_chunks = math.ceil(df.shape[0] / CHUNK)
-df_list = np.array_split(df, num_chunks)
 
-total = 0
-for i in range(len(df_list)):
-    total = total + len(df_list[i])
-    df_list[i].to_pickle(f"./CoQA/preprocess/{i}.pkl")
+# num_chunks = math.ceil(df.shape[0] / CHUNK)
+# df_list = np.array_split(df, num_chunks)
 
-print(f"Total: {total}")
->>>>>>> dc8d6a502ffb98ad06156b91e769fc3fa22cbd61
+# total = 0
+# for i in range(len(df_list)):
+#     total = total + len(df_list[i])
+#     df_list[i].to_pickle(f"./CoQA/preprocess/{i}.pkl")
+
+# print(f"Total: {total}")
+
 
 # chunking_dataset(CHUNK=50)
