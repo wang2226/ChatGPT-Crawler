@@ -9,3 +9,15 @@ jsonl_files/
 AQA/preprocess/
 
 CoQA/preprocess/
+
+CoQA_data.csv
+
+# input_processed/
+
+# input_raw/
+
+# output_raw/
+
+# tokens/
+
+# output_processed/
