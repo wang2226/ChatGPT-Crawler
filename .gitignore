@@ -12,6 +12,8 @@ CoQA/preprocess/
 
 CoQA_data.csv
 
+CoQA_data_cnn.csv
+
 input_processed/
 
 input_raw/
