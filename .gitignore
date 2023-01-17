@@ -10,7 +10,6 @@ AQA/preprocess/
 
 CoQA/preprocess/
 
-<<<<<<< HEAD
 CoQA_data.csv
 
 input_processed/
@@ -22,6 +21,4 @@ output_raw/
 tokens/
 
 output_processed/
-=======
-CoQA_data.csv
->>>>>>> dc8d6a502ffb98ad06156b91e769fc3fa22cbd61
+
