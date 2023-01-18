@@ -24,7 +24,7 @@ for index, row in coqa.iterrows():
 df = pd.DataFrame(comp_list, columns=cols) 
 df["query"] = df["text"].astype(str) + " " + df["question"].astype(str)
 df = df.astype(str).drop_duplicates(["query"]).reset_index(drop=True)
-df = df[(df.source == 'cnn')]
+df = df[(df.source == 'cnn')].reset_index(drop=True)
 print(df.head)
 
 # df.to_csv("CoQA_data_cnn.csv", index=False)
