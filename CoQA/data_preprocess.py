@@ -27,7 +27,7 @@ df = df.astype(str).drop_duplicates(["query"]).reset_index(drop=True)
 df = df[(df.source == 'cnn')]
 print(df.head)
 
-df.to_csv("CoQA_data_cnn.csv", index=False)
+# df.to_csv("CoQA_data_cnn.csv", index=False)
 
 df.to_pickle(f"./input_processed/{DATASET}.pkl")
 
