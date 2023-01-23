@@ -28,9 +28,9 @@ df = df[(df.source == 'cnn')].reset_index(drop=True)
 df = df.iloc[:2001,:]
 print(df)
 
-# df.to_csv("CoQA_data_cnn.csv", index=False)
+df.to_csv("CoQA_data_cnn.csv", index=False)
 
-df.to_pickle(f"./input_processed/{DATASET}.pkl")
+# df.to_pickle(f"./input_processed/{DATASET}.pkl")
 
 
 

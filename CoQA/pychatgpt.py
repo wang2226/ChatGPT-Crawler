@@ -16,9 +16,9 @@ TIMESTAMP = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 DATASET = "CoQA"
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--token", type=str, default="", help="token path")
-args = parser.parse_args()
+# parser = argparse.ArgumentParser()
+# parser.add_argument("--token", type=str, default="", help="token path")
+# args = parser.parse_args()
 
 
 if not os.path.exists(f"./start"):
@@ -38,17 +38,19 @@ if start == 0:
 df = raw_df[int(start)+1:end]
 print(df)
 
-try:
-    with open(f"./tokens/{args.token}", "r") as f:
-        token = f.read()
-except:
-    print("Cannot find valid tokens")
-    sys.exit(1)
+# try:
+#     with open(f"./tokens/{args.token}", "r") as f:
+#         token = f.read()
+# except:
+#     print("Cannot find valid tokens")
+#     sys.exit(1)
 
 
 session_token = token
 api = ChatGPT(session_token)
-
+# query= ''
+# response = api.send_message(query)
+# print(response["message"])
 
 if not os.path.exists(f"./output_raw/{DATASET}_{int(start)}.csv"):
     f = open(f"./output_raw/{DATASET}_{int(start)}.csv", "w")
@@ -92,6 +94,6 @@ with open(f"./output_raw/{DATASET}_{int(start)}.csv", "a") as fp:
 
 fp.close()
 
-api.reset_conversation()  # reset the conversation
-api.clear_conversations()  # clear all conversations
-api.refresh_chat_page()  # refresh the chat page
+# api.reset_conversation()  # reset the conversation
+# api.clear_conversations()  # clear all conversations
+# api.refresh_chat_page()  # refresh the chat page
