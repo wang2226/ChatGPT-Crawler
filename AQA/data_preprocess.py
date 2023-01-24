@@ -149,25 +149,29 @@ with open("./jsonl_files/convertjson7.jsonl") as f:
 
 
 df = pd.concat([df0, df1, df2, df3, df4, df5, df7, df8, df10, df10, df12])
-df.drop_duplicates(['question'])
+df["query"] = df["context"].astype(str) + " " + df["question"].astype(str)
+df = df.astype(str).drop_duplicates(["query"]).reset_index(drop=True)
+df = df.iloc[:2001,:]
+print(df)
+
+df.to_csv("CoQA_data_aqa.csv", index=False)
+
+# df.to_pickle(f"./input_processed/{DATASET}.pkl")
 # print(df.head)
 # df.to_csv('file6.csv')
 
 
-def chunking_dataset(CHUNK):
-    num_chunks = math.ceil(df.shape[0] / CHUNK)
-    df_list = np.array_split(df, num_chunks)
+# def chunking_dataset(CHUNK):
+#     num_chunks = math.ceil(df.shape[0] / CHUNK)
+#     df_list = np.array_split(df, num_chunks)
 
-    total = 0
-    for i in range(len(df_list)):
-        total = total + len(df_list[i])
-        df_list[i].to_pickle(f"./AQA/preprocess/{i}.pkl")
+#     total = 0
+#     for i in range(len(df_list)):
+#         total = total + len(df_list[i])
+#         df_list[i].to_pickle(f"./AQA/preprocess/{i}.pkl")
 
-    print(f"Total: {total}")
+#     print(f"Total: {total}")
 
-chunking_dataset(CHUNK=50)
+# chunking_dataset(CHUNK=50)
 
 
-# bot = ChatGPT()
-# response = bot.ask("What is 6 times 4?")
-# print(response) 

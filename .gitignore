@@ -14,6 +14,12 @@ CoQA_data.csv
 
 CoQA_data_cnn.csv
 
+CoQAR_data.csv
+
+tokens.txt
+
+AQA_data.csv
+
 input_processed/
 
 input_raw/
@@ -24,3 +30,6 @@ tokens/
 
 output_processed/
 
+val_v0.2.json
+
+QUAC_data.csv
