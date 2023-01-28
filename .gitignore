@@ -35,3 +35,15 @@ val_v0.2.json
 QUAC_data.csv
 
 .ipynb_checkpoints
+
+CODAH.pkl
+
+CoQA_withResponse.csv
+
+CoQA.pkl
+
+DialFact.pkl
+
+FaVIQ.pkl
+
+original_df.pkl
