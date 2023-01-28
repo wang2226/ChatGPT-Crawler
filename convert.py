@@ -19,3 +19,4 @@ del data_last['index']
 del data_last['query']
 data_last.to_csv("CoQA_withResponse.csv", index=True)
 
+

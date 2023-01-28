@@ -47,3 +47,11 @@ DialFact.pkl
 FaVIQ.pkl
 
 original_df.pkl
+
+BERT_similarity/sematic-similarity.h5
+
+BERT_similarity/SNLI_Corpus/
+
+BERT_similarity/CoQA_with_GR.csv
+
+BERT_similarity/__pycache__/
