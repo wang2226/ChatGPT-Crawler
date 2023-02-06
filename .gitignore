@@ -55,3 +55,9 @@ BERT_similarity/SNLI_Corpus/
 BERT_similarity/CoQA_with_GR.csv
 
 BERT_similarity/__pycache__/
+
+DialFact_original.csv
+
+DialFact_result.csv
+
+DialFact_withResponse.csv
