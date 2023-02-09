@@ -61,3 +61,7 @@ DialFact_original.csv
 DialFact_result.csv
 
 DialFact_withResponse.csv
+
+AQA_v1.csv
+
+CoQA_with_GR.csv

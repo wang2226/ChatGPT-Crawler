@@ -23,9 +23,6 @@ def data_processing_coqa(dataset):
     coqa_new = pd.DataFrame(new_data_list, columns=coqa_columns)
     return coqa_new.to_csv("CoQA_dataset.csv", index=False)
 
-# data_processing_coqa('http://downloads.cs.stanford.edu/nlp/data/coqa/coqa-train-v1.0.json')
-# data = pd.read_csv("CoQA_dataset.csv")
-
 
 
 def evaluating_QA_BERT(question, text):
