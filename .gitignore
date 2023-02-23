@@ -1,5 +1,29 @@
 .DS_Store
 
-DialFact/raw
+*.pkl
 
-miniforge3/
+*.pickle
+
+*.pyc
+
+*.npy
+
+*.pth
+
+*.npz
+
+*.mat
+
+*.model
+
+*.png
+
+*.pdf
+
+*.pt
+
+*.json
+
+*.jsonl
+
+*.csv
